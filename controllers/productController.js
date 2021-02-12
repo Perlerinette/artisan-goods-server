@@ -57,7 +57,7 @@ router.put("/edit/:id", validateSession, function (req, res) {
   };
   const query = { where: { id: req.params.id, owner: req.user.id } };
 
-  Journal.update(updateJournalEntry, query)
+  Product.update(updateProductEntry, query)
     .then((products) => res.status(200).json(products))
     .catch((err) => res.status(500).json({ error: err }));
 });
@@ -65,7 +65,7 @@ router.put("/edit/:id", validateSession, function (req, res) {
 router.delete("/delete/:id", validateSession, function (req, res) {
   const query = { where: { id: req.params.id, owner: req.user.id } };
 
-  Productl.destroy(query)
+  Product.destroy(query)
     .then(() => res.status(200).json({ message: "Product Entry Removed" }))
     .catch((err) => res.status(500).json({ error: err }));
 });
