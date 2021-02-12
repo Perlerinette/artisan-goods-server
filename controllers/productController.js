@@ -16,23 +16,24 @@ router.post("/create", validateSession, (req, res) => {
   };
 
   Product.create(productEntry)
-    .then((product) => res.status(200).json(products))
+    .then((products) => res.status(200).json(products))
     .catch((err) => res.status(500).json({ error: err }));
 });
 
 router.get("/", (req, res) => {
   Product.findAll()
-    .then((journals) => res.status(200).json(products))
+    .then((products) => res.status(200).json(products))
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-router.get("/owner", function (req, res) {
-  let owner = req.params.owner;
+router.get("/owner", validateSession, function (req, res) {
+  let userid = req.user.id;
+  //   let owner = req.params.owner;
 
   Product.findAll({
-    where: { owner: owner },
+    where: { owner: userid },
   })
-    .then((journals) => res.status(200).json(products))
+    .then((products) => res.status(200).json(products))
     .catch((err) => res.status(500).json({ error: err }));
 });
 
@@ -42,7 +43,7 @@ router.get("/name", function (req, res) {
   Product.findAll({
     where: { name: name },
   })
-    .then((journals) => res.status(200).json(products))
+    .then((products) => res.status(200).json(products))
     .catch((err) => res.status(500).json({ error: err }));
 });
 
@@ -57,14 +58,14 @@ router.put("/edit/:id", validateSession, function (req, res) {
   const query = { where: { id: req.params.id, owner: req.user.id } };
 
   Journal.update(updateJournalEntry, query)
-    .then((journals) => res.status(200).json(products))
+    .then((products) => res.status(200).json(products))
     .catch((err) => res.status(500).json({ error: err }));
 });
 
 router.delete("/delete/:id", validateSession, function (req, res) {
   const query = { where: { id: req.params.id, owner: req.user.id } };
 
-  Journal.destroy(query)
+  Productl.destroy(query)
     .then(() => res.status(200).json({ message: "Product Entry Removed" }))
     .catch((err) => res.status(500).json({ error: err }));
 });
