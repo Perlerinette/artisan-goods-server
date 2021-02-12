@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+let express = require("express");
+let app = express();
+// const sequelize = require("./db");
+let product = require("./controllers/productController");
+=======
 require("dotenv").config();
 let express = require('express');
 let app = express();
@@ -16,7 +22,12 @@ app.use(express.json());
  ****/
 app.use('/user', user);
 
+>>>>>>> 72668eb4489dd94c4773204ede3abc23913d0d66
 
-app.listen(3000, function(){
-    console.log('App is listening on port 3000');
-})
+// sequelize.sync();
+
+app.use("/product", product);
+
+app.listen(3000, function () {
+  console.log("App is listening on port 3000");
+});
