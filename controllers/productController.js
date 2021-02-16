@@ -37,7 +37,7 @@ router.get("/owner", validateSession, function (req, res) {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-router.get("/name", function (req, res) {
+router.get("/:name", function (req, res) {
   let name = req.params.name;
 
   Product.findAll({
