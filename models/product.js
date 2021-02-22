@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(2000),
       allowNull: false,
     },
     availability: {
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     photoURL: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(2000), //to limit the data
       allowNull: false,
     },
     adminDisplay: {
