@@ -1,4 +1,3 @@
-const cloudinary = require('cloudinary');
 let express = require('express');
 let router = express.Router();
 
