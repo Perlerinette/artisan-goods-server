@@ -1,3 +1,4 @@
+const cloudinary = require('cloudinary');
 let express = require("express");
 let router = express.Router();
 
@@ -69,5 +70,46 @@ router.delete("/delete/:id", validateSession, function (req, res) {
     .then(() => res.status(200).json({ message: "Product Entry Removed" }))
     .catch((err) => res.status(500).json({ error: err }));
 });
+
+/* ****************************
+****** CLOUDINARY ENDPOINTS ***
+***************************** */
+
+router.get('/cloudsign', validateSession, async (req, res) => {
+  try {
+
+      const ts = Math.floor(new Date().getTime() / 1000).toString()
+
+      const sig = cloudinary.utils.api_sign_request(
+          {timestamp: ts, upload_preset: 'cloudinary-mayhem'},
+          process.env.CLOUDINARY_SECRET
+      )
+
+      res.status(200).json({
+          sig, ts
+      })
+
+  } catch (err) {
+      res.status(500).json({
+          message: 'failed to sign'
+      })
+  }
+})
+
+router.put('/photoURL', validateSession, async (req, res) => {
+  try {
+
+      const u = await User.findOne({where: {id: req.user.id}})
+
+      const result = await u.update({
+          avatar: req.body.url
+      })
+
+  } catch (err) {
+      res.status(500).json({
+          message: 'failed to set image'
+      })
+  }
+})
 
 module.exports = router;
