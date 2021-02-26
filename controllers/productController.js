@@ -81,7 +81,7 @@ router.get('/cloudsign', validateSession, async (req, res) => {
       const ts = Math.floor(new Date().getTime() / 1000).toString()
 
       const sig = cloudinary.utils.api_sign_request(
-          {timestamp: ts, upload_preset: 'cloudinary-mayhem'},
+          {timestamp: ts, upload_preset: 'artisan-goods-cloudinary'},
           process.env.CLOUDINARY_SECRET
       )
 
