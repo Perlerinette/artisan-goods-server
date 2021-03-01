@@ -5,6 +5,10 @@ let router = express.Router();
 let validateSession = require("../middleware/validateSession");
 const Product = require("../db").import("../models/product");
 
+
+/*********************
+ * PRODUCT - CREATE
+ ********************/
 router.post("/create", validateSession, (req, res) => {
   const productEntry = {
     name: req.body.product.name,
@@ -21,12 +25,20 @@ router.post("/create", validateSession, (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
+
+/*********************
+ * PRODUCT - GET ALL
+ ********************/
 router.get("/", (req, res) => {
   Product.findAll()
     .then((products) => res.status(200).json(products))
     .catch((err) => res.status(500).json({ error: err }));
 });
 
+
+/**************************
+ * PRODUCT - GET BY OWNER
+ **************************/
 router.get("/owner", validateSession, function (req, res) {
   let userid = req.user.id;
   //   let owner = req.params.owner;
@@ -38,6 +50,11 @@ router.get("/owner", validateSession, function (req, res) {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
+
+
+/************************
+ * PRODUCT - GET BY NAME
+ ***********************/
 router.get("/:name", function (req, res) {
   let name = req.params.name;
 
@@ -48,6 +65,11 @@ router.get("/:name", function (req, res) {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
+
+
+/*********************
+ * PRODUCT - UPDATE
+ ********************/
 router.put("/edit/:id", validateSession, function (req, res) {
   const updateProductEntry = {
     name: req.body.product.name,
@@ -63,6 +85,11 @@ router.put("/edit/:id", validateSession, function (req, res) {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
+
+
+/*********************
+ * PRODUCT - DELETE
+ ********************/
 router.delete("/delete/:id", validateSession, function (req, res) {
   const query = { where: { id: req.params.id, owner: req.user.id } };
 
@@ -70,6 +97,8 @@ router.delete("/delete/:id", validateSession, function (req, res) {
     .then(() => res.status(200).json({ message: "Product Entry Removed" }))
     .catch((err) => res.status(500).json({ error: err }));
 });
+
+
 
 /* ****************************
 ****** CLOUDINARY ENDPOINTS ***
